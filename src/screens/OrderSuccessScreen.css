@@ -1,0 +1,290 @@
+/* src/screens/OrderSuccessScreen.css */
+:root {
+    --primary-text: #2d2426;
+    --brand-color: #704455;
+    --bg-color: #fdfaf9;
+    --card-bg: #ffffff;
+    --pink-accent: #fac0d2;
+    --pink-hover: #f5a8bf;
+    --text-muted: #7d6f73;
+    --border-color: #efeae7;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.success-page {
+    background-color: var(--bg-color);
+    color: var(--primary-text);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+    padding: 2rem;
+}
+
+/* Background Glow Effects */
+.blur-glow-left {
+    position: absolute;
+    width: 450px;
+    height: 450px;
+    background-color: #f8c1d2;
+    filter: blur(90px);
+    top: -10%;
+    left: -10%;
+    opacity: 0.3;
+    z-index: 0;
+    border-radius: 50%;
+}
+
+.blur-glow-right {
+    position: absolute;
+    width: 400px;
+    height: 400px;
+    background-color: #dfd2ec;
+    filter: blur(90px);
+    bottom: -5%;
+    right: -5%;
+    opacity: 0.3;
+    z-index: 0;
+    border-radius: 50%;
+}
+
+/* Success Container */
+.success-container {
+    width: 100%;
+    max-width: 420px;
+    text-align: center;
+    z-index: 10;
+    position: relative;
+}
+
+/* Success Icon */
+.success-icon-wrap {
+    width: 130px;
+    height: 130px;
+    background-color: #fdf2f5;
+    border-radius: 50%;
+    margin: 0 auto 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.success-icon-inner {
+    width: 90px;
+    height: 90px;
+    background-color: #fadee5;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.success-icon-center {
+    width: 45px;
+    height: 45px;
+    background-color: var(--brand-color);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #ffffff;
+    font-size: 1.3rem;
+    box-shadow: 0 4px 10px rgba(112, 68, 85, 0.2);
+}
+
+/* Headings */
+.success-container h1 {
+    font-size: 1.8rem;
+    font-weight: 600;
+    color: var(--brand-color);
+    margin-bottom: 0.5rem;
+}
+
+.success-container p {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    margin-bottom: 2rem;
+}
+
+/* Order Details Card */
+.order-card {
+    background-color: var(--card-bg);
+    border-radius: 16px;
+    padding: 1.5rem;
+    box-shadow: 0 10px 40px rgba(112, 68, 85, 0.04);
+    text-align: left;
+    margin-bottom: 2rem;
+}
+
+.order-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--border-color);
+    margin-bottom: 1.2rem;
+    font-size: 0.85rem;
+}
+
+.order-header span {
+    color: var(--text-muted);
+    font-weight: 500;
+}
+
+.order-header strong {
+    color: var(--brand-color);
+    font-weight: 700;
+}
+
+/* Order Items */
+.order-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.order-item:last-of-type {
+    margin-bottom: 0;
+}
+
+.item-icon {
+    width: 36px;
+    height: 36px;
+    background-color: #f7f1f3;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--brand-color);
+    margin-right: 1rem;
+    font-size: 0.9rem;
+}
+
+.item-name {
+    flex: 1;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--primary-text);
+}
+
+.item-qty {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--text-muted);
+}
+
+/* Pickup Info Box */
+.pickup-info {
+    background-color: #f6f3f2;
+    border-radius: 10px;
+    padding: 1rem 1.2rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-top: 1.5rem;
+}
+
+.pickup-info i {
+    font-size: 1.2rem;
+    color: var(--text-muted);
+}
+
+.pickup-text {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+}
+
+.pickup-text strong {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--primary-text);
+}
+
+.pickup-text span {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+}
+
+/* Delivery Address */
+.delivery-address {
+    margin-top: 0.75rem;
+}
+
+/* Buttons */
+.btn-group {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.btn {
+    width: 100%;
+    padding: 0.9rem;
+    border-radius: 25px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    text-decoration: none;
+    text-align: center;
+    transition: all 0.3s;
+    cursor: pointer;
+    border: none;
+}
+
+.btn-primary {
+    background-color: var(--pink-accent);
+    color: var(--brand-color);
+}
+
+.btn-primary:hover {
+    background-color: var(--pink-hover);
+}
+
+.btn-secondary {
+    background-color: transparent;
+    color: var(--brand-color);
+    border: 1px solid var(--border-color);
+}
+
+.btn-secondary:hover {
+    background-color: var(--card-bg);
+    border-color: var(--pink-accent);
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+    .success-container {
+        max-width: 100%;
+    }
+    
+    .success-icon-wrap {
+        width: 100px;
+        height: 100px;
+    }
+    
+    .success-icon-inner {
+        width: 70px;
+        height: 70px;
+    }
+    
+    .success-icon-center {
+        width: 35px;
+        height: 35px;
+        font-size: 1rem;
+    }
+    
+    .success-container h1 {
+        font-size: 1.5rem;
+    }
+    
+    .order-card {
+        padding: 1rem;
+    }
+}

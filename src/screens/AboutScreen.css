@@ -1,0 +1,463 @@
+/* src/screens/AboutScreen.css */
+:root {
+    --primary-text: #2d2426;
+    --brand-color: #704455;
+    --brand-light: #8e5d71;
+    --bg-color: #ffffff;
+    --bg-tint: #faf8f6;
+    --card-bg: #ffffff;
+    --text-muted: #7d6f73;
+    --pink-accent: #fbe2e9;
+    --pink-icon-bg: #fcedf1;
+    --section-margin: 5rem;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.about-container {
+    background-color: var(--bg-color);
+    color: var(--primary-text);
+    overflow-x: hidden;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+}
+
+/* --- NAVBAR --- */
+.about-header {
+    background-color: #ffffff;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.5rem 0;
+}
+
+.logo {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--brand-color);
+    text-decoration: none;
+}
+
+.nav-icons {
+    display: flex;
+    gap: 1.5rem;
+    font-size: 1.1rem;
+    color: var(--primary-text);
+}
+
+.nav-icons a {
+    color: inherit;
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+.nav-icons a:hover {
+    color: var(--brand-color);
+}
+
+/* --- HERO STORY SECTION --- */
+.hero-story {
+    display: flex;
+    align-items: center;
+    gap: 4rem;
+    padding: 4rem 0;
+    position: relative;
+}
+
+.story-content {
+    flex: 1;
+}
+
+.story-tag {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--brand-light);
+    letter-spacing: 1px;
+    margin-bottom: 1rem;
+}
+
+.story-tag::before {
+    content: "";
+    width: 20px;
+    height: 2px;
+    background-color: var(--brand-light);
+    display: inline-block;
+}
+
+.story-content h1 {
+    font-size: 3rem;
+    font-weight: 700;
+    line-height: 1.2;
+    color: var(--primary-text);
+    margin-bottom: 1.5rem;
+}
+
+.story-content p {
+    color: var(--text-muted);
+    line-height: 1.7;
+    font-size: 0.95rem;
+}
+
+.story-image {
+    flex: 1;
+    display: flex;
+    justify-content: flex-end;
+    position: relative;
+}
+
+.story-image img {
+    width: 100%;
+    max-width: 480px;
+    height: 430px;
+    object-fit: cover;
+    border-radius: 24px;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.04);
+}
+
+.story-image::before {
+    content: "";
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    background-color: #f7b1c4;
+    border-radius: 50%;
+    left: -15px;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: -1;
+    opacity: 0.7;
+}
+
+/* --- PHILOSOPHY SECTION --- */
+.philosophy-section {
+    margin-bottom: var(--section-margin);
+    text-align: center;
+}
+
+.section-header h2 {
+    font-size: 2.2rem;
+    font-weight: 600;
+    color: var(--brand-color);
+    margin-bottom: 0.8rem;
+}
+
+.section-header p {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    max-width: 600px;
+    margin: 0 auto 3rem;
+    line-height: 1.6;
+}
+
+.philosophy-grid {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr;
+    gap: 2rem;
+}
+
+.ph-card {
+    background-color: var(--card-bg);
+    border-radius: 16px;
+    padding: 2.5rem;
+    text-align: left;
+    box-shadow: 0 10px 30px rgba(112, 68, 85, 0.02);
+    border: 1px solid #f9f5f6;
+}
+
+.ph-card.pink-variant {
+    background-color: #faf0f2;
+    border: none;
+}
+
+.icon-box {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    background-color: var(--pink-icon-bg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--brand-color);
+    font-size: 1.1rem;
+    margin-bottom: 1.5rem;
+}
+
+.ph-card.pink-variant .icon-box {
+    background-color: #ffffff;
+}
+
+.ph-card h3 {
+    font-size: 1.3rem;
+    font-weight: 600;
+    margin-bottom: 0.8rem;
+    color: var(--primary-text);
+}
+
+.ph-card p {
+    color: var(--text-muted);
+    font-size: 0.88rem;
+    line-height: 1.6;
+}
+
+.ph-card.full-width {
+    grid-column: span 2;
+    position: relative;
+    background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.6)), url('https://images.unsplash.com/photo-1555529669-e69e7aa0ba9a?auto=format&fit=crop&w=1200&q=80');
+    background-size: cover;
+    background-position: center;
+    color: #ffffff;
+    min-height: 280px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+}
+
+.ph-card.full-width .icon-box {
+    background-color: rgba(255, 255, 255, 0.2);
+    color: #ffffff;
+    backdrop-filter: blur(5px);
+}
+
+.ph-card.full-width h3 {
+    color: #ffffff;
+}
+
+.ph-card.full-width p {
+    color: #e0e0e0;
+    max-width: 650px;
+}
+
+/* --- THE SWEETTECH DIFFERENCE --- */
+.difference-section {
+    background-color: var(--bg-tint);
+    padding: 5rem 0;
+    text-align: center;
+}
+
+.difference-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 3rem;
+    margin-top: 3rem;
+}
+
+.diff-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.diff-icon {
+    width: 65px;
+    height: 65px;
+    background-color: #ffffff;
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--brand-color);
+    font-size: 1.5rem;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.02);
+}
+
+.diff-item h3 {
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin-bottom: 0.8rem;
+}
+
+.diff-item p {
+    color: var(--text-muted);
+    font-size: 0.88rem;
+    line-height: 1.6;
+    max-width: 280px;
+}
+
+/* --- HUBUNGI KAMI --- */
+.contact-section {
+    padding: 5rem 0;
+    text-align: center;
+}
+
+.whatsapp-card {
+    display: inline-flex;
+    align-items: center;
+    gap: 1.5rem;
+    background-color: #ffffff;
+    padding: 1.2rem 2.5rem;
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.04);
+    border: 1px solid #f2ecee;
+    text-decoration: none;
+    margin-top: 1.5rem;
+    transition: transform 0.3s;
+}
+
+.whatsapp-card:hover {
+    transform: translateY(-3px);
+}
+
+.wa-icon {
+    font-size: 2rem;
+    color: #25D366;
+}
+
+.wa-info {
+    text-align: left;
+}
+
+.wa-info span {
+    display: block;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    letter-spacing: 0.5px;
+}
+
+.wa-info strong {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--primary-text);
+}
+
+/* --- FOOTER --- */
+.about-footer {
+    background-color: #f5f1f2;
+    padding: 2.5rem 0;
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    margin-top: auto;
+}
+
+.footer-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+}
+
+.footer-logo {
+    font-weight: 700;
+    font-size: 1.3rem;
+    color: var(--primary-text);
+}
+
+.footer-links {
+    display: flex;
+    gap: 2rem;
+}
+
+.footer-links a {
+    text-decoration: none;
+    color: var(--text-muted);
+    transition: color 0.3s;
+}
+
+.footer-links a:hover {
+    color: var(--brand-color);
+}
+
+/* --- RESPONSIVE BREAKPOINTS --- */
+@media (max-width: 992px) {
+    .hero-story {
+        flex-direction: column;
+        text-align: center;
+        gap: 2.5rem;
+    }
+    
+    .story-tag {
+        justify-content: center;
+    }
+    
+    .story-tag::before {
+        display: none;
+    }
+    
+    .story-image {
+        justify-content: center;
+        width: 100%;
+    }
+    
+    .philosophy-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .ph-card.full-width {
+        grid-column: span 1;
+    }
+    
+    .difference-grid {
+        grid-template-columns: 1fr;
+        gap: 2.5rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .story-content h1 {
+        font-size: 2.2rem;
+    }
+    
+    .story-image img {
+        height: 300px;
+    }
+    
+    .section-header h2 {
+        font-size: 1.8rem;
+    }
+    
+    .whatsapp-card {
+        padding: 1rem 1.5rem;
+    }
+    
+    .wa-info strong {
+        font-size: 1rem;
+    }
+    
+    .footer-content {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .footer-links {
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .container {
+        padding: 0 1rem;
+    }
+    
+    .story-content h1 {
+        font-size: 1.8rem;
+    }
+    
+    .ph-card {
+        padding: 1.5rem;
+    }
+}

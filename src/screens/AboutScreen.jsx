@@ -1,9 +1,40 @@
 // src/screens/AboutScreen.jsx
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { supabase } from '../utils/supabaseClient';
+import logoImg from '../assets/logo.png'; 
 
 export default function AboutScreen() {
-  // CSS asli dari about.html tetap utuh dan diisolasi di dalam komponen ini
+  const [cartCount, setCartCount] = useState(0);
+  const [isMenuOpen, setIsMenuOpen] = useState(false); // state untuk hamburger
+
+  useEffect(() => {
+    const fetchCartCount = async () => {
+      try {
+        const { data: { user } } = await supabase.auth.getUser();
+        if (user) {
+          const { data: cartData, error: cartError } = await supabase
+            .from('cart_items')
+            .select('quantity')
+            .eq('user_id', user.id);
+
+          if (!cartError && cartData) {
+            const totalItems = cartData.reduce((sum, item) => sum + (item.quantity || 0), 0);
+            setCartCount(totalItems);
+          }
+        }
+      } catch (err) {
+        console.error('Error fetching cart count:', err);
+      }
+    };
+
+    fetchCartCount();
+  }, []);
+
   const styles = `
+    @import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css');
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
     :root {
       --brand-color: #704455;
       --primary-text: #2d2426;
@@ -37,7 +68,6 @@ export default function AboutScreen() {
       margin: 0 auto;
       padding: 0 2rem;
       width: 100%;
-      align-self: center;
     }
 
     /* --- NAVBAR --- */
@@ -54,22 +84,33 @@ export default function AboutScreen() {
       display: flex;
       justify-content: space-between;
       align-items: center;
+      position: relative;
     }
 
-    .logo {
-      font-size: 1.4rem;
-      font-weight: 700;
-      color: var(--brand-color);
+    .logo-container {
       text-decoration: none;
       display: flex;
       align-items: center;
       gap: 0.5rem;
     }
-    .logo i { color: #ea6c75; }
 
+    .logo-image {
+      height: 32px;
+      width: auto;
+      object-fit: contain;
+    }
+
+    .logo-text {
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: var(--brand-color);
+    }
+
+    /* === NAV LINKS (Desktop) === */
     .nav-links {
       display: flex;
-      gap: 2.5rem;
+      gap: 2rem;
+      list-style: none;
     }
 
     .nav-links a {
@@ -77,7 +118,7 @@ export default function AboutScreen() {
       color: var(--primary-text);
       font-weight: 500;
       font-size: 0.95rem;
-      transition: color 0.3s;
+      transition: color 0.2s;
     }
 
     .nav-links a:hover, .nav-links a.active {
@@ -85,15 +126,106 @@ export default function AboutScreen() {
       font-weight: 600;
     }
 
+    /* === NAV ICONS (keranjang & profil) === */
     .nav-icons {
       display: flex;
       gap: 1.5rem;
       font-size: 1.2rem;
+      align-items: center;
     }
 
     .nav-icons a {
       color: var(--primary-text);
       text-decoration: none;
+      transition: color 0.2s;
+      position: relative;
+    }
+
+    .nav-icons a:hover {
+      color: var(--brand-color);
+    }
+
+    .cart-badge-about {
+      position: absolute;
+      top: -6px;
+      right: -10px;
+      background-color: var(--brand-color);
+      color: white;
+      font-size: 0.7rem;
+      font-weight: 600;
+      min-width: 17px;
+      height: 17px;
+      padding: 0 4px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 2px 5px rgba(112, 68, 85, 0.3);
+    }
+
+    /* === HAMBURGER BUTTON === */
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 5px;
+    }
+
+    .hamburger span {
+      display: block;
+      width: 25px;
+      height: 3px;
+      background-color: var(--primary-text);
+      border-radius: 3px;
+      transition: all 0.25s ease;
+    }
+
+    .hamburger.open span:nth-child(1) {
+      transform: rotate(45deg) translate(5px, 6px);
+    }
+    .hamburger.open span:nth-child(2) {
+      opacity: 0;
+    }
+    .hamburger.open span:nth-child(3) {
+      transform: rotate(-45deg) translate(5px, -6px);
+    }
+
+    /* === MOBILE MENU OVERLAY === */
+    .mobile-menu {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      gap: 1.5rem;
+      padding: 2rem 0;
+      background-color: #fcfaf8;
+      border-bottom: 1px solid var(--border-color);
+      position: absolute;
+      top: 100%;
+      left: 0;
+      width: 100%;
+      z-index: 99;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.02);
+    }
+
+    .mobile-menu.open {
+      display: flex;
+    }
+
+    .mobile-menu a {
+      text-decoration: none;
+      color: var(--primary-text);
+      font-weight: 500;
+      font-size: 1.1rem;
+      transition: color 0.2s;
+    }
+
+    .mobile-menu a:hover,
+    .mobile-menu a.active {
+      color: var(--brand-color);
+      font-weight: 600;
     }
 
     /* --- ABOUT CONTENT --- */
@@ -143,7 +275,6 @@ export default function AboutScreen() {
       margin-bottom: 1.5rem;
     }
 
-    /* Section Title Extension */
     .section-title {
       text-align: center;
       margin: 5rem 0 2rem;
@@ -162,7 +293,6 @@ export default function AboutScreen() {
       border-radius: 2px;
     }
 
-    /* Visi Misi Cards */
     .values-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -209,7 +339,6 @@ export default function AboutScreen() {
       line-height: 1.6;
     }
 
-    /* Misi List Styling */
     .misi-list {
       text-align: left;
       padding-left: 1rem;
@@ -221,7 +350,6 @@ export default function AboutScreen() {
       line-height: 1.5;
     }
 
-    /* --- CONTACT SECTION (NEW WA INTEGRATION) --- */
     .contact-container {
       max-width: 600px;
       margin: 2rem auto 0;
@@ -276,10 +404,10 @@ export default function AboutScreen() {
       margin-right: 0.4rem;
     }
 
-    /* --- FOOTER --- */
     footer {
-      background-color: #f4efed;
+      background-color: #fcfaf8;
       padding: 2.5rem 0;
+      border-top: 1px solid var(--border-color);
       font-size: 0.9rem;
       color: var(--text-muted);
       margin-top: auto;
@@ -293,11 +421,35 @@ export default function AboutScreen() {
       gap: 1.5rem;
     }
 
-    /* Responsive */
+    /* === RESPONSIVE === */
     @media (max-width: 850px) {
       .story-block { grid-template-columns: 1fr; gap: 2rem; }
       .story-img { height: 280px; }
       .info-meta { flex-direction: column; gap: 0.75rem; }
+
+      /* Sembunyikan nav-links desktop, tampilkan hamburger */
+      .nav-links {
+        display: none;
+      }
+      .hamburger {
+        display: flex;
+      }
+      /* Mobile menu muncul di bawah header */
+      .mobile-menu {
+        display: none;
+      }
+      .mobile-menu.open {
+        display: flex;
+      }
+    }
+
+    @media (max-width: 576px) {
+      .container { padding: 0 1rem; }
+      .story-text h1 { font-size: 1.8rem; }
+      .section-title { font-size: 1.5rem; }
+      .value-card { padding: 1.8rem 1.2rem; }
+      .contact-container { padding: 2rem 1.2rem; }
+      .wa-btn { padding: 0.8rem 1.8rem; font-size: 0.95rem; }
     }
   `;
 
@@ -307,20 +459,43 @@ export default function AboutScreen() {
       
       <header>
         <div className="container navbar">
-          <Link to="/" className="logo">
-            <i className="fa-solid fa-cake-candles"></i> SweetTech
+          <Link to="/" className="logo-container">
+            <img src={logoImg} alt="SweetTech Logo" className="logo-image" />
+            <span className="logo-text">SweetTech</span>
           </Link>
           
+          {/* Nav Links Desktop */}
           <nav className="nav-links">
             <Link to="/">Home</Link>
             <Link to="/menu">Menu</Link>
             <Link to="/about" className="active">About Us</Link>
           </nav>
-
+          
+          {/* Nav Icons + Hamburger */}
           <div className="nav-icons">
-            <Link to="/cart"><i className="fa-solid fa-cart-shopping"></i></Link>
+            <Link to="/cart">
+              <i className="fa-solid fa-cart-shopping"></i>
+              {cartCount > 0 && <span className="cart-badge-about">{cartCount}</span>}
+            </Link>
             <Link to="/profile"><i className="fa-regular fa-user"></i></Link>
+            {/* Tombol Hamburger */}
+            <button 
+              className={`hamburger ${isMenuOpen ? 'open' : ''}`} 
+              onClick={() => setIsMenuOpen(!isMenuOpen)}
+              aria-label="Toggle menu"
+            >
+              <span></span>
+              <span></span>
+              <span></span>
+            </button>
           </div>
+        </div>
+
+        {/* Mobile Menu (turun di bawah header) */}
+        <div className={`mobile-menu ${isMenuOpen ? 'open' : ''}`}>
+          <Link to="/" onClick={() => setIsMenuOpen(false)}>Home</Link>
+          <Link to="/menu" onClick={() => setIsMenuOpen(false)}>Menu</Link>
+          <Link to="/about" className="active" onClick={() => setIsMenuOpen(false)}>About Us</Link>
         </div>
       </header>
 
@@ -334,7 +509,7 @@ export default function AboutScreen() {
           />
           <div className="story-text">
             <h1>Kisah Manis Di Balik <span>SweetTech</span></h1>
-            <p>Didirikan pada tahun 2024, SweetTech lahir dari kecintaan mendalam kami terhadap seni hidangan penutup modern. Kami believe bahwa setiap perayaan kehidupan—besar maupun kecil—pantas dirayakan dengan rasa manis yang sempurna.</p>
+            <p>Didirikan pada tahun 2024, SweetTech lahir dari kecintaan mendalam kami terhadap seni hidangan penutup modern. Kami percaya bahwa setiap perayaan kehidupan—besar maupun kecil—pantas dirayakan dengan rasa manis yang sempurna.</p>
             <p>Kami memadukan teknik pembuatan kue tradisional Italia dan Prancis dengan teknologi pemesanan modern untuk memastikan hidangan panna cotta dan dessert box premium kami tiba di tangan Anda dalam kondisi sesegar dan selezat mungkin.</p>
           </div>
         </div>
@@ -381,7 +556,7 @@ export default function AboutScreen() {
           </div>
         </div>
 
-        {/* Hubungi Kami / Integrasi WhatsApp */}
+        {/* Hubungi Kami */}
         <h2 className="section-title">Hubungi Kami</h2>
         <div className="contact-container">
           <p>Punya pertanyaan seputar kustomisasi menu, pesanan acara besar, atau kendala dalam pengiriman? Tim Customer Service kami siap melayani dan menjawab kebutuhan manis Anda dengan senang hati.</p>
@@ -404,8 +579,10 @@ export default function AboutScreen() {
 
       <footer>
         <div className="container footer-content">
+          <div className="logo-container">
+            <span className="logo-text" style={{ fontSize: '1.1rem' }}>SweetTech</span>
+          </div>
           <span>© 2026 SweetTech. All rights reserved.</span>
-          <span>Premium Dessert Shop</span>
         </div>
       </footer>
     </>

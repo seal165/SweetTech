@@ -2,6 +2,7 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { supabase } from '../utils/supabaseClient';
+import logoImg from '../assets/logo.png'; // <--- Import logo sesuai permintaan
 
 export default function LoginScreen() {
   const navigate = useNavigate();
@@ -15,7 +16,7 @@ export default function LoginScreen() {
     setLoading(true);
     setError('');
 
-    // Ini sudah benar langsung menembak database auth Supabase
+    // Logika tidak diubah sama sekali, tetap aman menembak Supabase
     const { error: loginError } = await supabase.auth.signInWithPassword({
       email,
       password,
@@ -29,213 +30,375 @@ export default function LoginScreen() {
     }
   };
 
-  // CSS asli dari login.html (Tetap utuh tanpa ada yang diubah)
+  // Menggunakan CSS terpadu yang kamu sediakan khusus untuk desain terbaru
   const styles = `
+    @import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css');
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
     :root {
-      --brand-color: #704455;
-      --primary-text: #2d2426;
-      --bg-color: #faf8f6;
-      --card-bg: #ffffff;
-      --pink-accent: #f8c1d2;
-      --pink-hover: #f19fb5;
-      --text-muted: #7d6f73;
-      --border-color: #ebe4e6;
+        --primary-text: #1a1a1a;
+        --brand-color: #704455;
+        --bg-color: #FAF6F5;
+        --card-bg: #ffffff;
+        --btn-bg: #fac0d2;
+        --btn-text: #704455;
+        --text-muted: #7d7176;
+        --border-color: #ebdbe0;
+        --error-color: #e74c3c;
     }
+
     * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: 'Poppins', sans-serif;
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: 'Poppins', sans-serif;
     }
-    body {
-      background-color: var(--bg-color);
-      min-height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      padding: 1.5rem;
-      position: relative;
-      overflow-x: hidden;
+
+    .login-container {
+        background-color: var(--bg-color);
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        overflow-x: hidden;
+        position: relative;
     }
-    .bg-glow {
-      position: absolute;
-      width: 400px;
-      height: 400px;
-      background-color: #fbe8ee;
-      filter: blur(80px);
-      border-radius: 50%;
-      z-index: -1;
-      animation: floatingGlow 6s ease-in-out infinite alternate;
+
+    /* Background Glow Blobs */
+    .glow-left {
+        position: absolute;
+        width: 450px;
+        height: 450px;
+        background: radial-gradient(circle, rgba(250,192,210,0.5) 0%, rgba(250,192,210,0) 70%);
+        top: -10%;
+        left: -10%;
+        filter: blur(40px);
+        z-index: 1;
     }
-    .glow-1 { top: -10%; left: -10%; }
-    .glow-2 { bottom: -10%; right: -10%; background-color: #e8e2f4; }
-    @keyframes floatingGlow {
-      0% { transform: translate(0, 0) scale(1); }
-      100% { transform: translate(20px, 30px) scale(1.1); }
+
+    .glow-right {
+        position: absolute;
+        width: 400px;
+        height: 400px;
+        background: radial-gradient(circle, rgba(220,200,240,0.4) 0%, rgba(220,200,240,0) 70%);
+        bottom: -10%;
+        right: 15%;
+        filter: blur(50px);
+        z-index: 1;
     }
+
+    /* Main Container Layout */
+    .main-container {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 5rem;
+        width: 100%;
+        max-width: 1100px;
+        padding: 2rem;
+        z-index: 2;
+    }
+
+    /* Login Card */
     .login-card {
-      background-color: var(--card-bg);
-      width: 100%;
-      max-width: 450px;
-      padding: 3rem 2.5rem;
-      border-radius: 20px;
-      box-shadow: 0 10px 30px rgba(112,68,85,0.05);
-      border: 1px solid var(--border-color);
-      text-align: center;
-      opacity: 0;
-      transform: translateY(20px);
-      animation: fadeInUp 0.6s cubic-bezier(0.16,1,0.3,1) forwards;
+        background-color: var(--card-bg);
+        width: 100%;
+        max-width: 420px;
+        padding: 3rem 2.5rem;
+        border-radius: 16px;
+        box-shadow: 0 15px 40px rgba(112, 68, 85, 0.04);
+        text-align: center;
     }
-    @keyframes fadeInUp {
-      to { opacity: 1; transform: translateY(0); }
+
+    .logo-container {
+        margin-bottom: 1.5rem;
+        display: flex;
+        justify-content: center;
     }
-    .logo {
-      font-size: 1.8rem;
-      font-weight: 700;
-      color: var(--brand-color);
-      margin-bottom: 0.5rem;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 0.5rem;
+
+    .logo-placeholder {
+        width: 80px;
+        height: 80px;
+        background-color: transparent;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
-    .logo i { color: #ea6c75; }
-    .subtitle {
-      font-size: 0.9rem;
-      color: var(--text-muted);
-      margin-bottom: 2.5rem;
+
+    .logo-img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
     }
+
+    .login-card h2 {
+        color: var(--brand-color);
+        font-size: 1.6rem;
+        font-weight: 600;
+        margin-bottom: 0.4rem;
+    }
+
+    .login-card .subtitle {
+        color: var(--text-muted);
+        font-size: 0.9rem;
+        margin-bottom: 2rem;
+    }
+
+    /* Alert */
+    .alert {
+        padding: 0.75rem 1rem;
+        border-radius: 8px;
+        margin-bottom: 1.5rem;
+        font-size: 0.85rem;
+        text-align: left;
+    }
+
+    .alert-error {
+        background-color: #fee2e2;
+        color: var(--error-color);
+        border: 1px solid #fecaca;
+    }
+
+    /* Form Styling */
     .form-group {
-      text-align: left;
-      margin-bottom: 1.5rem;
+        margin-bottom: 1.5rem;
+        text-align: left;
     }
+
+    .label-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 0.5rem;
+    }
+
     .form-group label {
-      display: block;
-      font-size: 0.85rem;
-      font-weight: 600;
-      margin-bottom: 0.4rem;
-      color: var(--primary-text);
+        font-size: 0.85rem;
+        color: var(--primary-text);
+        font-weight: 500;
+        margin-bottom: 0.5rem;
+        display: block;
     }
+
+    .forgot-link {
+        font-size: 0.8rem;
+        color: var(--brand-color);
+        text-decoration: none;
+        font-weight: 600;
+    }
+
+    .forgot-link:hover {
+        text-decoration: underline;
+    }
+
     .input-wrapper {
-      position: relative;
+        position: relative;
     }
+
     .input-wrapper i {
-      position: absolute;
-      left: 1rem;
-      top: 50%;
-      transform: translateY(-50%);
-      color: #b8b0b3;
-      font-size: 0.95rem;
+        position: absolute;
+        left: 1rem;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #a39399;
+        font-size: 0.95rem;
     }
-    .form-control {
-      width: 100%;
-      padding: 0.9rem 1rem 0.9rem 2.8rem;
-      border: 1px solid var(--border-color);
-      border-radius: 10px;
-      font-size: 0.95rem;
-      outline: none;
-      background-color: #fdfcfc;
-      transition: all 0.3s;
+
+    .input-wrapper input {
+        width: 100%;
+        padding: 0.85rem 1rem 0.85rem 2.6rem;
+        border: 1px solid var(--border-color);
+        background-color: #fcf9fa;
+        border-radius: 8px;
+        font-size: 0.9rem;
+        color: var(--primary-text);
+        outline: none;
+        transition: all 0.3s ease;
     }
-    .form-control:focus {
-      border-color: #d8b8c2;
-      background-color: #ffffff;
-      box-shadow: 0 0 0 3px rgba(248,193,210,0.2);
+
+    .input-wrapper input:focus {
+        border-color: var(--btn-bg);
+        background-color: #fff;
+        box-shadow: 0 0 0 3px rgba(250, 192, 210, 0.2);
     }
-    .btn-login {
-      width: 100%;
-      background-color: var(--pink-accent);
-      color: var(--brand-color);
-      border: none;
-      padding: 1rem;
-      border-radius: 30px;
-      font-size: 1rem;
-      font-weight: 600;
-      cursor: pointer;
-      margin-top: 1rem;
-      transition: background-color 0.3s, transform 0.1s;
+
+    .input-wrapper input:disabled {
+        background-color: #f0f0f0;
+        cursor: not-allowed;
     }
-    .btn-login:hover {
-      background-color: var(--pink-hover);
+
+    .input-wrapper input::placeholder {
+        color: #c4b4ba;
     }
-    .btn-login:active {
-      transform: scale(0.98);
+
+    /* Button */
+    .btn-submit {
+        width: 100%;
+        padding: 1rem;
+        background-color: var(--btn-bg);
+        color: var(--btn-text);
+        border: none;
+        border-radius: 30px;
+        font-size: 1.05rem;
+        font-weight: 600;
+        cursor: pointer;
+        margin-top: 1rem;
+        transition: background-color 0.3s;
     }
-    .switch-text {
-      font-size: 0.85rem;
-      color: var(--text-muted);
-      margin-top: 2rem;
+
+    .btn-submit:hover:not(:disabled) {
+        background-color: #f5a8bf;
     }
-    .switch-text a {
-      color: var(--brand-color);
-      text-decoration: none;
-      font-weight: 600;
+
+    .btn-submit:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
     }
-    .switch-text a:hover {
-      text-decoration: underline;
+
+    /* Footer Card */
+    .signup-text {
+        margin-top: 2rem;
+        font-size: 0.88rem;
+        color: var(--text-muted);
     }
-    .error-message {
-      color: #d33c44;
-      font-size: 0.85rem;
-      margin-bottom: 1rem;
+
+    .signup-text a {
+        color: var(--brand-color);
+        text-decoration: none;
+        font-weight: 600;
+    }
+
+    .signup-text a:hover {
+        text-decoration: underline;
+    }
+
+    /* Right Side Circular Image */
+    .image-side {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .circle-img-wrapper {
+        width: 380px;
+        height: 380px;
+        border-radius: 50%;
+        overflow: hidden;
+        box-shadow: 0 20px 40px rgba(0,0,0,0.08);
+    }
+
+    .circle-img-wrapper img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    /* Responsive Breakpoints */
+    @media (max-width: 850px) {
+        .main-container {
+            flex-direction: column;
+            gap: 2rem;
+        }
+        .image-side {
+            display: none; /* Sembunyikan gambar besar di HP agar tetap bersih */
+        }
+        .glow-left, .glow-right {
+            width: 300px;
+            height: 300px;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .login-card {
+            padding: 2rem 1.5rem;
+        }
+        
+        .login-card h2 {
+            font-size: 1.4rem;
+        }
     }
   `;
 
   return (
-    <>
+    <div className="login-container">
       <style>{styles}</style>
-      {/* Fragment di bawah ini sengaja dikosongkan tanpa membungkus div tambahan 
-        agar CSS selector body {} dari layout aslimu bekerja dengan sempurna.
-      */}
-      <div className="bg-glow glow-1"></div>
-      <div className="bg-glow glow-2"></div>
-      <div className="login-card">
-        <div className="logo">
-          <i className="fa-solid fa-cake-candles"></i> SweetTech
+      
+      {/* Ornamen Glow Latar Belakang */}
+      <div className="glow-left"></div>
+      <div className="glow-right"></div>
+
+      <div className="main-container">
+        
+        {/* BAGIAN KIRI: KARTU LOGIN */}
+        <div className="login-card">
+          <div className="logo-container">
+            <div className="logo-placeholder">
+              <img src={logoImg} alt="SweetTech Logo" className="logo-img" />
+            </div>
+          </div>
+          
+          <h2>Selamat Datang</h2>
+          <p className="subtitle">Masuk ke dunia manis SweetTech</p>
+          
+          {error && <div className="alert alert-error">{error}</div>}
+          
+          <form onSubmit={handleLogin}>
+            <div className="form-group">
+              <label htmlFor="email">Email</label>
+              <div className="input-wrapper">
+                <i className="fa-regular fa-envelope"></i>
+                <input
+                  type="email"
+                  id="email"
+                  placeholder="nama@email.com"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
+                />
+              </div>
+            </div>
+            
+            <div className="form-group">
+              <div className="label-row">
+                <label htmlFor="password">Kata Sandi</label>
+                <Link to="#" className="forgot-link">Lupa Password?</Link>
+              </div>
+              <div className="input-wrapper">
+                <i className="fa-solid fa-lock"></i>
+                <input
+                  type="password"
+                  id="password"
+                  placeholder="••••••••"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  required
+                />
+              </div>
+            </div>
+            
+            <button type="submit" className="btn-submit" disabled={loading}>
+              {loading ? 'Memproses...' : 'Masuk'}
+            </button>
+          </form>
+          
+          <p className="signup-text">
+            Belum punya akun? <Link to="/register">Daftar Sekarang</Link>
+          </p>
         </div>
-        <p className="subtitle">Selamat datang kembali! Silakan masuk ke akun Anda</p>
-        
-        {error && <div className="error-message">{error}</div>}
-        
-        <form onSubmit={handleLogin}>
-          <div className="form-group">
-            <label htmlFor="email">Email</label>
-            <div className="input-wrapper">
-              <i className="fa-regular fa-envelope"></i>
-              <input
-                type="email"
-                id="email"
-                className="form-control"
-                placeholder="Masukkan email Anda"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                required
-              />
-            </div>
+
+        {/* BAGIAN KANAN: GAMBAR LINGKARAN ESTETIK */}
+        <div className="image-side">
+          <div className="circle-img-wrapper">
+            {/* Foto Panna Cotta HD sebagai pelengkap visual di layar besar */}
+            <img 
+              src="https://images.unsplash.com/photo-1488477181946-6428a0291777?auto=format&fit=crop&w=600&q=80" 
+              alt="SweetTech Signature Dessert" 
+            />
           </div>
-          <div className="form-group">
-            <label htmlFor="password">Password</label>
-            <div className="input-wrapper">
-              <i className="fa-solid fa-lock"></i>
-              <input
-                type="password"
-                id="password"
-                className="form-control"
-                placeholder="Masukkan password Anda"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                required
-              />
-            </div>
-          </div>
-          <button type="submit" className="btn-login" disabled={loading}>
-            {loading ? 'Memproses...' : 'Masuk'}
-          </button>
-        </form>
-        <p className="switch-text">
-          Belum punya akun? <Link to="/register">Daftar di sini</Link>
-        </p>
+        </div>
+
       </div>
-    </>
+    </div>
   );
 }

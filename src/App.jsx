@@ -62,13 +62,18 @@ function App() {
 
   useEffect(() => {
     supabase.auth.getSession().then(async ({ data: { session } }) => {
-      setSession(session)
-      if (session) {
-        fetchCartCount(session.user.id)
-        const admin = await checkAdminRole(session.user.id)
-        setIsAdmin(admin)
+      try {
+        setSession(session)
+        if (session) {
+          fetchCartCount(session.user.id)
+          const admin = await checkAdminRole(session.user.id)
+          setIsAdmin(admin)
+        }
+      } catch (err) {
+        console.error('Session init error:', err)
+      } finally {
+        setLoading(false)
       }
-      setLoading(false)
     })
 
     const { data: { subscription } } = supabase.auth.onAuthStateChange(async (_event, session) => {
@@ -81,6 +86,8 @@ function App() {
         setCartCount(0)
         setIsAdmin(false)
       }
+
+      setLoading(false)
     })
 
     return () => subscription.unsubscribe()

@@ -48,17 +48,22 @@ function App() {
   // ─── CEK ROLE ADMIN ───
   const checkAdminRole = async (userId) => {
     try {
-      const { data, error } = await supabase
+      const timeoutPromise = new Promise((_, reject) => 
+        setTimeout(() => reject(new Error('timeout')), 3000)
+      );
+      const queryPromise = supabase
         .from('profiles')
         .select('role')
         .eq('id', userId)
-        .single()
-      if (error) throw error
-      return data?.role === 'admin'
+        .single();
+      
+      const { data, error } = await Promise.race([queryPromise, timeoutPromise]);
+      if (error) return false;
+      return data?.role === 'admin';
     } catch {
-      return false
+      return false; // kalau timeout atau error, anggap bukan admin
     }
-  }
+  };
 
   useEffect(() => {
     supabase.auth.getSession().then(async ({ data: { session } }) => {
